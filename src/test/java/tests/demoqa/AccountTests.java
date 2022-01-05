@@ -38,7 +38,7 @@ public class AccountTests extends BaseTest {
 
 
     @Test
-    @DisplayName("create account when user already exist")
+    @DisplayName("Create account when user already exist")
     void createUserFailTest() {
         given()
                 .spec(request)

@@ -11,17 +11,6 @@ public class BookData {
     private String description;
     private String website;
 
-    public BookData(String isbn, String title, String subTitle, String author, String publish_date, String publisher, String pages, String description, String website) {
-        this.isbn = isbn;
-        this.title = title;
-        this.subTitle = subTitle;
-        this.author = author;
-        this.publish_date = publish_date;
-        this.publisher = publisher;
-        this.pages = pages;
-        this.description = description;
-        this.website = website;
-    }
 
     public String getIsbn() {
         return isbn;

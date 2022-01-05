@@ -10,6 +10,12 @@ import static io.restassured.RestAssured.with;
 public class SpecsDemoqa {
     public static RequestSpecification request = with()
             .basePath("/Account/v1/")
+            .log().uri()
+            .contentType(ContentType.JSON);
+
+    public static RequestSpecification requestBooks = with()
+            .basePath("/BookStore/v1/")
+            .log().uri()
             .contentType(ContentType.JSON);
 
     public static ResponseSpecification responseOk200 = new ResponseSpecBuilder()
