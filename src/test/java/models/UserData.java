@@ -1,8 +1,5 @@
 package models;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class UserData {
     private final String userName;
     private final String password;
@@ -12,10 +9,11 @@ public class UserData {
         this.password = password;
     }
 
-    public Map<String, String> getUserData() {
-        Map<String, String> userData = new HashMap<>();
-        userData.put("userName", userName);
-        userData.put("password", password);
-        return userData;
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

@@ -1,11 +1,14 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BookData {
     private String isbn;
     private String title;
     private String subTitle;
     private String author;
-    private String publish_date;
+    @JsonProperty("publish_date")
+    private String publishDate;
     private String publisher;
     private String pages;
     private String description;
@@ -28,8 +31,8 @@ public class BookData {
         return author;
     }
 
-    public String getPublish_date() {
-        return publish_date;
+    public String getPublishDate() {
+        return publishDate;
     }
 
     public String getPublisher() {
@@ -46,5 +49,41 @@ public class BookData {
 
     public String getWebsite() {
         return website;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setPages(String pages) {
+        this.pages = pages;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
     }
 }

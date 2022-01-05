@@ -17,23 +17,21 @@ import static specs.SpecsDemoqa.*;
 @Tag("demoqa")
 public class AccountTests extends BaseTest {
     private final UserData USER = new UserData(App.config.userLogin(), App.config.userPassword());
-    private String userId;
 
     @Test
     @DisplayName("Create new user account and get userId")
     void createNewUserTest() {
-        userId = given()
-                .spec(request)
-                .body(USER.getUserData())
+        given()
+                .spec(accountRequest)
+                .body(USER)
                 .when()
                 .post("User")
                 .then()
-                .spec(response201)
+                .spec(STATUS_CREATED)
                 .log().body()
                 .body("userID", is(notNullValue()))
                 .body("username", is(notNullValue()))
-                .body("books", is(notNullValue()))
-                .extract().jsonPath().getString("userID");
+                .body("books", is(notNullValue()));
     }
 
 
@@ -41,12 +39,12 @@ public class AccountTests extends BaseTest {
     @DisplayName("Create account when user already exist")
     void createUserFailTest() {
         given()
-                .spec(request)
-                .body(USER.getUserData())
+                .spec(accountRequest)
+                .body(USER)
                 .when()
                 .post("User")
                 .then()
-                .spec(response406)
+                .spec(STATUS_NOT_ACCEPTABLE)
                 .log().body()
                 .body("code", is("1204"))
                 .body("message", is("User exists!"));
@@ -56,12 +54,12 @@ public class AccountTests extends BaseTest {
     @DisplayName("User is authorized")
     void authorizedTest() {
         String response = given()
-                .spec(request)
-                .body(USER.getUserData())
+                .spec(accountRequest)
+                .body(USER)
                 .when()
                 .post("Authorized")
                 .then()
-                .spec(responseOk200)
+                .spec(STATUS_OK)
                 .log().body()
                 .extract().response().asString();
         assertThat(response, is("true"));
@@ -71,12 +69,12 @@ public class AccountTests extends BaseTest {
     @DisplayName("User is not authorized")
     void notAuthorizedTest() {
         String response = given()
-                .spec(request)
-                .body(USER.getUserData())
+                .spec(accountRequest)
+                .body(USER)
                 .when()
                 .post("Authorized")
                 .then()
-                .spec(responseOk200)
+                .spec(STATUS_OK)
                 .log().body()
                 .extract().response().asString();
         assertThat(response, is("false"));
@@ -86,12 +84,12 @@ public class AccountTests extends BaseTest {
     @DisplayName("Failed authorization with empty body in request")
     void authorizedFailTest() {
         given()
-                .spec(request)
+                .spec(accountRequest)
                 .body("")
                 .when()
                 .post("Authorized")
                 .then()
-                .spec(response400)
+                .spec(STATUS_BAD_REQUEST)
                 .log().body()
                 .body("code", is("1200"))
                 .body("message", is("UserName and Password required."));
@@ -102,12 +100,12 @@ public class AccountTests extends BaseTest {
     void generateTokenTest() {
         GenerateTokenData data =
                 given()
-                        .spec(request)
-                        .body(USER.getUserData())
+                        .spec(accountRequest)
+                        .body(USER)
                         .when()
                         .post("GenerateToken")
                         .then()
-                        .spec(responseOk200)
+                        .spec(STATUS_OK)
                         .log().body()
                         .extract().as(GenerateTokenData.class);
 
@@ -121,12 +119,12 @@ public class AccountTests extends BaseTest {
     @DisplayName("Failed trying to take token with empty body in request")
     void generateTokenFailTest() {
         given()
-                .spec(request)
+                .spec(accountRequest)
                 .body("")
                 .when()
                 .post("GenerateToken")
                 .then()
-                .spec(response400)
+                .spec(STATUS_BAD_REQUEST)
                 .log().body()
                 .body("code", is("1200"))
                 .body("message", is("UserName and Password required."));
