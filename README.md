@@ -1,4 +1,4 @@
-# Автотесты для сайта https://demoqa.com
+# Автотесты API для сайта https://demoqa.com
 
 ___
 
