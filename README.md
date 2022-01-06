@@ -4,14 +4,14 @@ ___
 
 ## Используемые технологии и инструменты
 
-  <code><img width="5%" title="Java" src="images/JAVA.svg"></code>
-  <code><img width="5%" title="Gradle" src="images/Gradle.svg"></code>
-  <code><img width="5%" title="JUnit5" src="images/Junit5.svg"></code>
-  <code><img width="5%" title="Jenkins" src="images/Jenkins.svg"></code>
-  <code><img width="5%" title="Allure TestOps" src="images/Allure TestOps.svg"></code>
-  <code><img width="5%" title="Allure Report" src="images/Allure Report.svg"></code>
-  <code><img width="5%" title="REST Assured" src="images/RESTAssured.svg"></code>
-  <code><img width="5%" title="Telegram" src="images/Telegram.svg"></code>
+<code><img width="5%" title="Java" src="images/JAVA.svg"></code>
+<code><img width="5%" title="Gradle" src="images/Gradle.svg"></code>
+<code><img width="5%" title="JUnit5" src="images/Junit5.svg"></code>
+<code><img width="5%" title="Jenkins" src="images/Jenkins.svg"></code>
+<code><img width="5%" title="Allure TestOps" src="images/Allure TestOps.svg"></code>
+<code><img width="5%" title="Allure Report" src="images/Allure Report.svg"></code>
+<code><img width="5%" title="REST Assured" src="images/RESTAssured.svg"></code>
+<code><img width="5%" title="Telegram" src="images/Telegram.svg"></code>
 </p>
 
 ___
