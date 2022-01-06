@@ -1,0 +1,8 @@
+for local terminal
+java  \
+"-DprojectName=DemoQaAPI" \
+"-Denv=DEV" \
+"-DreportLink=BUILD_URL" \
+"-Dcomm= DemoQaAPI" \
+"-Dconfig.file=notifications/telegram_notification.json" \
+-jar allure-notifications-3.1.2.jar
