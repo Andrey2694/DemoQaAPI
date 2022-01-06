@@ -1,4 +1,4 @@
-# Автотесты для сайта https://tinkoff.ru/
+# Автотесты для сайта https://demoqa.com
 
 ___
 
