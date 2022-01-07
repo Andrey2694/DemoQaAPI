@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith({AllureJunit5.class})
 public class BaseTest {
-
     @BeforeAll
     static void setUp() {
         RestAssured.baseURI = App.config.apiUrl();
