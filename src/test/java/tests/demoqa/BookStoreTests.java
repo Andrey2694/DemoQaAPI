@@ -13,6 +13,7 @@ import static helpers.BaseMethods.getRandomNumber;
 import static helpers.BaseMethods.isBookDataFieldsNull;
 import static helpers.CustomLogFilter.customLogFilter;
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static specs.SpecsDemoqa.*;
@@ -46,6 +47,7 @@ public class BookStoreTests extends BaseTest {
                 .then()
                 .spec(STATUS_OK)
                 .log().all()
+                .body(matchesJsonSchemaInClasspath("schemas/BookCode200.json"))
                 .extract().as(BookData.class);
 
         assertThat(isBookDataFieldsNull(BookData), is(true));
@@ -53,7 +55,7 @@ public class BookStoreTests extends BaseTest {
     }
 
     @Test
-    @DisplayName("Get a book using empty isbn code")
+    @DisplayName("Get book using empty isbn code")
     void getBookFailTest() {
         String isbn = "";
 

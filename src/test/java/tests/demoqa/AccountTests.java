@@ -10,6 +10,7 @@ import tests.BaseTest;
 
 import static helpers.CustomLogFilter.customLogFilter;
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -20,7 +21,7 @@ public class AccountTests extends BaseTest {
     private final UserData USER = new UserData(App.config.userLogin(), App.config.userPassword());
 
     @Test
-    @DisplayName("Create new user account and get userId")
+    @DisplayName("Create new user account")
     void createNewUserTest() {
         given()
                 .filter(customLogFilter().withCustomTemplates())
@@ -31,6 +32,7 @@ public class AccountTests extends BaseTest {
                 .then()
                 .spec(STATUS_CREATED)
                 .log().body()
+                .body(matchesJsonSchemaInClasspath("schemas/UserCode201.json"))
                 .body("userID", is(notNullValue()))
                 .body("username", is(notNullValue()))
                 .body("books", is(notNullValue()));
@@ -86,7 +88,7 @@ public class AccountTests extends BaseTest {
     }
 
     @Test
-    @DisplayName("Failed authorization with empty body in request")
+    @DisplayName("Authorization with empty body in request")
     void authorizedFailTest() {
         given()
                 .filter(customLogFilter().withCustomTemplates())
@@ -114,6 +116,7 @@ public class AccountTests extends BaseTest {
                         .then()
                         .spec(STATUS_OK)
                         .log().body()
+                        .body(matchesJsonSchemaInClasspath("schemas/GenerateTokenCode200.json"))
                         .extract().as(GenerateTokenData.class);
 
         assertThat(data.getExpires(), notNullValue());
@@ -123,7 +126,7 @@ public class AccountTests extends BaseTest {
     }
 
     @Test
-    @DisplayName("Take token with empty body in request")
+    @DisplayName("Get token with empty body in request")
     void generateTokenFailTest() {
         given()
                 .filter(customLogFilter().withCustomTemplates())

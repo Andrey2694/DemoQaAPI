@@ -32,6 +32,7 @@ dependencies {
             "org.aeonbits.owner:owner:1.0.12",
             "org.assertj:assertj-core:3.19.0",
             "org.junit.jupiter:junit-jupiter-api:$junitVersion",
+            "io.rest-assured:json-schema-validator:4.3.1",
             "com.fasterxml.jackson.core:jackson-databind:2.11.2")
 
     testRuntimeOnly(
