@@ -2,6 +2,8 @@ package helpers;
 
 import models.BookData;
 
+import java.util.Random;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -18,5 +20,8 @@ public class BaseMethods {
         assertThat(book.getDescription(), is(notNullValue()));
         assertThat(book.getWebsite(), is(notNullValue()));
         return true;
+    }
+    public static int getRandomNumber(int min, int max) {
+        return new Random().nextInt(max - min) + min;
     }
 }

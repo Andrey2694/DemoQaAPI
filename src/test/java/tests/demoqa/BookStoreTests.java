@@ -4,42 +4,41 @@ import helpers.BaseMethods;
 import models.BookData;
 import org.junit.jupiter.api.*;
 
+import services.BookService;
 import tests.BaseTest;
 
 import java.util.List;
 
+import static helpers.BaseMethods.getRandomNumber;
 import static helpers.BaseMethods.isBookDataFieldsNull;
+import static helpers.CustomLogFilter.customLogFilter;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static specs.SpecsDemoqa.*;
 
-
 @Tag("demoqa")
 public class BookStoreTests extends BaseTest {
+    private final BookService bookService = new BookService();
 
     @Test
-    @DisplayName("Get list of books and check that fields not empty")
+    @DisplayName("Get list of books and check that fields are not empty")
     void getBooksTest() {
-        List<BookData> BooksData = given()
-                .spec(bookStoreRequest)
-                .when()
-                .get("Books")
-                .then()
-                .spec(STATUS_OK)
-                .log().all()
-                .extract().body().jsonPath().getList("books", BookData.class);
+        List<BookData> booksData = bookService.getBookData();
 
-        assertThat(BooksData, hasSize(greaterThan(0)));
-        assertThat(BooksData.stream().allMatch(BaseMethods::isBookDataFieldsNull), is(true));
+        assertThat(booksData, hasSize(greaterThan(0)));
+        assertThat(booksData.stream().allMatch(BaseMethods::isBookDataFieldsNull), is(true));
     }
 
     @Test
     @DisplayName("Get book using the isbn code and check that author is valid")
     void getBookTest() {
-        String isbn = "9781449325862";
+        List<BookData> booksData = bookService.getBookData();
+        int randomNumber = getRandomNumber(0, booksData.size());
+        String isbn = booksData.get(randomNumber).getIsbn();
 
         BookData BookData = given()
+                .filter(customLogFilter().withCustomTemplates())
                 .spec(bookStoreRequest)
                 .params("ISBN", isbn)
                 .when()
@@ -50,15 +49,16 @@ public class BookStoreTests extends BaseTest {
                 .extract().as(BookData.class);
 
         assertThat(isBookDataFieldsNull(BookData), is(true));
-        assertThat(BookData.getAuthor(), equalTo("Richard E. Silverman"));
+        assertThat(BookData.getAuthor(), equalTo(booksData.get(randomNumber).getAuthor()));
     }
 
     @Test
-    @DisplayName("Trying to get a book using invalid isbn code")
+    @DisplayName("Get a book using empty isbn code")
     void getBookFailTest() {
         String isbn = "";
 
         given()
+                .filter(customLogFilter().withCustomTemplates())
                 .spec(bookStoreRequest)
                 .params("ISBN", isbn)
                 .when()

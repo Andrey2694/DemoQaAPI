@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import tests.BaseTest;
 
+import static helpers.CustomLogFilter.customLogFilter;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -22,6 +23,7 @@ public class AccountTests extends BaseTest {
     @DisplayName("Create new user account and get userId")
     void createNewUserTest() {
         given()
+                .filter(customLogFilter().withCustomTemplates())
                 .spec(accountRequest)
                 .body(USER)
                 .when()
@@ -39,6 +41,7 @@ public class AccountTests extends BaseTest {
     @DisplayName("Create account when user already exist")
     void createUserFailTest() {
         given()
+                .filter(customLogFilter().withCustomTemplates())
                 .spec(accountRequest)
                 .body(USER)
                 .when()
@@ -54,6 +57,7 @@ public class AccountTests extends BaseTest {
     @DisplayName("User is authorized")
     void authorizedTest() {
         String response = given()
+                .filter(customLogFilter().withCustomTemplates())
                 .spec(accountRequest)
                 .body(USER)
                 .when()
@@ -69,6 +73,7 @@ public class AccountTests extends BaseTest {
     @DisplayName("User is not authorized")
     void notAuthorizedTest() {
         String response = given()
+                .filter(customLogFilter().withCustomTemplates())
                 .spec(accountRequest)
                 .body(USER)
                 .when()
@@ -84,6 +89,7 @@ public class AccountTests extends BaseTest {
     @DisplayName("Failed authorization with empty body in request")
     void authorizedFailTest() {
         given()
+                .filter(customLogFilter().withCustomTemplates())
                 .spec(accountRequest)
                 .body("")
                 .when()
@@ -100,6 +106,7 @@ public class AccountTests extends BaseTest {
     void generateTokenTest() {
         GenerateTokenData data =
                 given()
+                        .filter(customLogFilter().withCustomTemplates())
                         .spec(accountRequest)
                         .body(USER)
                         .when()
@@ -119,6 +126,7 @@ public class AccountTests extends BaseTest {
     @DisplayName("Failed trying to take token with empty body in request")
     void generateTokenFailTest() {
         given()
+                .filter(customLogFilter().withCustomTemplates())
                 .spec(accountRequest)
                 .body("")
                 .when()

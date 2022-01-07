@@ -14,7 +14,6 @@ public class BookData {
     private String description;
     private String website;
 
-
     public String getIsbn() {
         return isbn;
     }
