@@ -123,7 +123,7 @@ public class AccountTests extends BaseTest {
     }
 
     @Test
-    @DisplayName("Failed trying to take token with empty body in request")
+    @DisplayName("Take token with empty body in request")
     void generateTokenFailTest() {
         given()
                 .filter(customLogFilter().withCustomTemplates())
