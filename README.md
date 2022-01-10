@@ -19,7 +19,10 @@ ___
 ## Инструкция по запуску тестов
 
 Запуск тестов происходит через джобу в [Jenkins](https://jenkins.autotests.cloud/job/009-Andrey_Zhmaka-DemoQaAPI/)
-
+или через консоль
+```bash
+gradle clean demoqa
+```
 
 ### Serve report:
 
