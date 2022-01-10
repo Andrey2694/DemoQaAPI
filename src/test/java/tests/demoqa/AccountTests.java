@@ -12,8 +12,7 @@ import static helpers.CustomLogFilter.customLogFilter;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static specs.SpecsDemoqa.*;
 
 @Tag("demoqa")
@@ -26,18 +25,15 @@ public class AccountTests extends BaseTest {
         given()
                 .filter(customLogFilter().withCustomTemplates())
                 .spec(accountRequest)
-                .body(USER)
                 .when()
                 .post("User")
                 .then()
-                .spec(STATUS_CREATED)
-                .log().body()
+                .spec(response201)
                 .body(matchesJsonSchemaInClasspath("schemas/UserCode201.json"))
                 .body("userID", is(notNullValue()))
                 .body("username", is(notNullValue()))
                 .body("books", is(notNullValue()));
     }
-
 
     @Test
     @DisplayName("Create account when user already exist")
@@ -49,8 +45,7 @@ public class AccountTests extends BaseTest {
                 .when()
                 .post("User")
                 .then()
-                .spec(STATUS_NOT_ACCEPTABLE)
-                .log().body()
+                .spec(response406)
                 .body("code", is("1204"))
                 .body("message", is("User exists!"));
     }
@@ -58,33 +53,29 @@ public class AccountTests extends BaseTest {
     @Test
     @DisplayName("User is authorized")
     void authorizedTest() {
-        String response = given()
+        given()
                 .filter(customLogFilter().withCustomTemplates())
                 .spec(accountRequest)
                 .body(USER)
                 .when()
                 .post("Authorized")
                 .then()
-                .spec(STATUS_OK)
-                .log().body()
-                .extract().response().asString();
-        assertThat(response, is("true"));
+                .spec(response200)
+                .body(equalTo("true"));
     }
 
     @Test
     @DisplayName("User is not authorized")
     void notAuthorizedTest() {
-        String response = given()
+        given()
                 .filter(customLogFilter().withCustomTemplates())
                 .spec(accountRequest)
                 .body(USER)
                 .when()
                 .post("Authorized")
                 .then()
-                .spec(STATUS_OK)
-                .log().body()
-                .extract().response().asString();
-        assertThat(response, is("false"));
+                .spec(response200)
+                .body(equalTo("false"));
     }
 
     @Test
@@ -97,8 +88,7 @@ public class AccountTests extends BaseTest {
                 .when()
                 .post("Authorized")
                 .then()
-                .spec(STATUS_BAD_REQUEST)
-                .log().body()
+                .spec(response400)
                 .body("code", is("1200"))
                 .body("message", is("UserName and Password required."));
     }
@@ -114,8 +104,7 @@ public class AccountTests extends BaseTest {
                         .when()
                         .post("GenerateToken")
                         .then()
-                        .spec(STATUS_OK)
-                        .log().body()
+                        .spec(response200)
                         .body(matchesJsonSchemaInClasspath("schemas/GenerateTokenCode200.json"))
                         .extract().as(GenerateTokenData.class);
 
@@ -135,8 +124,7 @@ public class AccountTests extends BaseTest {
                 .when()
                 .post("GenerateToken")
                 .then()
-                .spec(STATUS_BAD_REQUEST)
-                .log().body()
+                .spec(response400)
                 .body("code", is("1200"))
                 .body("message", is("UserName and Password required."));
     }

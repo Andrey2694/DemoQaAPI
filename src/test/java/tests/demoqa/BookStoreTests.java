@@ -1,6 +1,6 @@
 package tests.demoqa;
 
-import helpers.BaseMethods;
+import helpers.BookHelper;
 import models.BookData;
 import org.junit.jupiter.api.*;
 
@@ -9,8 +9,8 @@ import tests.BaseTest;
 
 import java.util.List;
 
-import static helpers.BaseMethods.getRandomNumber;
-import static helpers.BaseMethods.isBookDataFieldsNull;
+import static helpers.RandomNumber.getRandomNumber;
+import static helpers.BookHelper.isBookDataFieldsNull;
 import static helpers.CustomLogFilter.customLogFilter;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
@@ -28,7 +28,7 @@ public class BookStoreTests extends BaseTest {
         List<BookData> booksData = bookService.getBookData();
 
         assertThat(booksData, hasSize(greaterThan(0)));
-        assertThat(booksData.stream().allMatch(BaseMethods::isBookDataFieldsNull), is(true));
+        assertThat(booksData.stream().allMatch(BookHelper::isBookDataFieldsNull), is(true));
     }
 
     @Test
@@ -45,8 +45,7 @@ public class BookStoreTests extends BaseTest {
                 .when()
                 .get("Book")
                 .then()
-                .spec(STATUS_OK)
-                .log().all()
+                .spec(response200)
                 .body(matchesJsonSchemaInClasspath("schemas/BookCode200.json"))
                 .extract().as(BookData.class);
 
@@ -57,17 +56,14 @@ public class BookStoreTests extends BaseTest {
     @Test
     @DisplayName("Get book using empty isbn code")
     void getBookFailTest() {
-        String isbn = "";
-
         given()
                 .filter(customLogFilter().withCustomTemplates())
                 .spec(bookStoreRequest)
-                .params("ISBN", isbn)
+                .params("ISBN", "")
                 .when()
                 .get("Book")
                 .then()
-                .spec(STATUS_BAD_REQUEST)
-                .log().all()
+                .spec(response400)
                 .body("code", is("1205"))
                 .body("message", is("ISBN supplied is not available in Books Collection!"));
     }

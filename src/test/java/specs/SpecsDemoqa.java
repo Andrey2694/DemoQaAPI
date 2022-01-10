@@ -1,6 +1,7 @@
 package specs;
 
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -18,20 +19,23 @@ public class SpecsDemoqa {
             .log().uri()
             .contentType(ContentType.JSON);
 
-    public static ResponseSpecification STATUS_OK = new ResponseSpecBuilder()
+    public static ResponseSpecification response200 = new ResponseSpecBuilder()
             .expectStatusCode(200)
+            .log(LogDetail.BODY)
             .build();
 
-    public static ResponseSpecification STATUS_CREATED = new ResponseSpecBuilder()
+    public static ResponseSpecification response201 = new ResponseSpecBuilder()
             .expectStatusCode(201)
+            .log(LogDetail.BODY)
             .build();
 
-    public static ResponseSpecification STATUS_BAD_REQUEST = new ResponseSpecBuilder()
+    public static ResponseSpecification response400 = new ResponseSpecBuilder()
             .expectStatusCode(400)
+            .log(LogDetail.BODY)
             .build();
 
-    public static ResponseSpecification STATUS_NOT_ACCEPTABLE = new ResponseSpecBuilder()
+    public static ResponseSpecification response406 = new ResponseSpecBuilder()
             .expectStatusCode(406)
+            .log(LogDetail.BODY)
             .build();
 }
-
